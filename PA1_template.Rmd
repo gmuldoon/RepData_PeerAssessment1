@@ -2,13 +2,15 @@
 title: "Reproducible Data: Project 1"
 author: "Gail Muldoon"
 date: "January 10, 2016"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
 ### Loading and pre-processing the data
 
 ```{r,echo=TRUE}
-setwd("/Users/gail/Documents/Courses/NONUT/DataSci/Reproducible/Week1/Project")
+setwd("/Users/gail/Documents/Courses/NONUT/DataSci/Reproducible/Week1/RepData_PeerAssessment1")
 datfile <- "data/activity.csv"
 
 activity <- read.csv(datfile)
@@ -51,7 +53,7 @@ The difference between the two is due to the left-skewed distribution of steps d
 mean_steps_per_interval <- tapply(activity$steps, activity$interval, mean, na.rm = TRUE)
 
 plot(row.names(mean_steps_per_interval), mean_steps_per_interval, type = "l", xlab = "5 minute interval", 
-     ylab = "Mean across all days in Oct/Nov 2012", main = "", col = "blue",lwd=4)
+     ylab = "Mean across all days in Oct/Nov 2012", main = "")
 ```
 
 ###2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
@@ -110,11 +112,9 @@ activity_no_NA <- activity_no_NA %>% group_by(interval, weekend)
 ```{r,echo=TRUE}
 
 activity_no_NA$steps[weekdays(activity_no_NA$date) %in% c("Saturday","Sunday")] <- tapply(activity$steps[weekdays(activity_no_NA$date) %in% c("Saturday","Sunday")], activity$interval[weekdays(activity_no_NA$date) %in% c("Saturday","Sunday")], mean, na.rm = TRUE)
-  
-qplot(x = interval, y = steps, data = activity_no_NA, geom = c("line"), facets = weekend~., ylab = "Average number of Steps")
 
-#xyplot(steps ~ interval | weekend, data = activity_no_NA, 
-#type = "l", layout = c(1,2), xlab = "Interval", ylab = "Number of Steps", 
-#main = "Average Steps by 5-minute Interval for Weekends and Weekdays")
- 
+activity_no_NA$steps[!(weekdays(activity_no_NA$date) %in% c("Saturday","Sunday"))] <- tapply(activity$steps[!(weekdays(activity_no_NA$date) %in% c("Saturday","Sunday"))], activity$interval[!(weekdays(activity_no_NA$date) %in% c("Saturday","Sunday"))], mean, na.rm = TRUE)
+  
+qplot(x = interval, y = steps, data = activity_no_NA, geom = c("line"), facets = weekend~., ylab = "Average number of Steps") + theme_bw()
  ```    
+ As the figure shows, weekends are associated with a higher number of steps on average at all times of the day other around the 835th interval, which is the time when weekday steps peak. Overall, variability in number of steps is also higher throughout the day on weekends. In general, weekday number of steps during the day is a more skewed distribution than the weekend distribution of number of steps.
