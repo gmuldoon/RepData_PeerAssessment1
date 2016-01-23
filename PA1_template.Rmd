@@ -99,7 +99,8 @@ When the NAs have been filled in, the mean and median steps per day is ~10766. T
 ### 1. Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.
 ```{r,echo=TRUE}
 activity_no_NA$date <- as.Date(activity_no_NA$date, "%m/%d/%Y")
-activity_activity_no_NA$weekend <- "weekday"_no_NA$weekend[weekdays(activity_no_NA$date) %in% c("Saturday","Sunday")] <- "weekend"
+activity_no_NA$weekend <- "weekday"
+activity_no_NA$weekend[weekdays(activity_no_NA$date) %in% c("Saturday","Sunday")] <- "weekend"
 activity_no_NA$weekend <- as.factor(activity_no_NA$weekend)
 activity_no_NA <- activity_no_NA %>% group_by(interval, weekend)
 
@@ -107,13 +108,13 @@ activity_no_NA <- activity_no_NA %>% group_by(interval, weekend)
 ```
 ### 2. Make a panel plot containing a time series plot (i.e. 𝚝𝚢𝚙𝚎 = "𝚕") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.
 ```{r,echo=TRUE}
-      
-#qplot(
-activity_no_NA$steps[weekdays(activity_no_NA$date) %in% c("Saturday","Sunday")] <- tapply(activity$steps[weekdays(activity_no_NA$date) %in% c("Saturday","Sunday")], activity$interval[weekdays(activity_no_NA$date) %in% c("Saturday","Sunday")], mean, na.rm = TRUE)
-intrval, y = steps, data = activity_no_NA, geom = c("line"), facets = weekend~., ylab = "Average number of Steps")
 
-xyplot(steps ~#xyplot(steps ~ interval | weekend, data = activity_no_NA, 
-#yout = c(1,2), xlab = "Interval", ylab = "Number of Steps", 
-main = "Averag#e Steps by 5-minute Interval for Weekends and Weekdays")
+activity_no_NA$steps[weekdays(activity_no_NA$date) %in% c("Saturday","Sunday")] <- tapply(activity$steps[weekdays(activity_no_NA$date) %in% c("Saturday","Sunday")], activity$interval[weekdays(activity_no_NA$date) %in% c("Saturday","Sunday")], mean, na.rm = TRUE)
+  
+qplot(x = interval, y = steps, data = activity_no_NA, geom = c("line"), facets = weekend~., ylab = "Average number of Steps")
+
+#xyplot(steps ~ interval | weekend, data = activity_no_NA, 
+#type = "l", layout = c(1,2), xlab = "Interval", ylab = "Number of Steps", 
+#main = "Average Steps by 5-minute Interval for Weekends and Weekdays")
  
  ```    
