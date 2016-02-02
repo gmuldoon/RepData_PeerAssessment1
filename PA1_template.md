@@ -133,7 +133,7 @@ steps_per_day <- tapply(activity$steps, activity$date, sum, na.rm=TRUE)
 hist(steps_per_day, xlab = "steps per day", main="",ylab="# Days in October/November 2012",breaks=seq(from=0, to=25000, by=2000))
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)\
+![](PA1_template_files/figure-html/steps_per_day-1.png)\
 
 ### 3. Calculate and report the mean and median of the total number of steps taken per day
 
@@ -167,7 +167,7 @@ plot(row.names(mean_steps_per_interval), mean_steps_per_interval, type = "l", xl
      ylab = "Mean across all days in Oct/Nov 2012", main = "")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-6-1.png)\
+![](PA1_template_files/figure-html/steps_per_interval-1.png)\
 
 ###2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
@@ -210,7 +210,7 @@ par(mar = rep(2, 4))
 hist(steps_per_day_filled, xlab='Steps per day with NAs filled', ylab='Frequency', main="",breaks=seq(from=0, to=25000, by=2000))
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-10-1.png)\
+![](PA1_template_files/figure-html/total_steps-1.png)\
 
 ```r
 mean(steps_per_day_filled)
@@ -254,5 +254,5 @@ activity_no_NA$steps[!(weekdays(activity_no_NA$date) %in% c("Saturday","Sunday")
 qplot(x = interval, y = steps, data = activity_no_NA, geom = c("line"), facets = weekend~., ylab = "Average number of Steps") + theme_bw()
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-12-1.png)\
+![](PA1_template_files/figure-html/weekend_v_weekday-1.png)\
  As the figure shows, weekends are associated with a higher number of steps on average at all times of the day other around the 835th interval, which is the time when weekday steps peak. Overall, variability in number of steps is also higher throughout the day on weekends. In general, weekday number of steps during the day is a more skewed distribution than the weekend distribution of number of steps.

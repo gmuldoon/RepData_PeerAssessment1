@@ -33,7 +33,7 @@ library(scales)
 steps_per_day <- tapply(activity$steps, activity$date, sum, na.rm=TRUE)
 ```
 ### 2. Make a histogram of the total number of steps taken each day
-```{r,echo=TRUE}
+```{r steps_per_day,echo=TRUE}
 hist(steps_per_day, xlab = "steps per day", main="",ylab="# Days in October/November 2012",breaks=seq(from=0, to=25000, by=2000))
 ```
 
@@ -49,7 +49,7 @@ The difference between the two is due to the left-skewed distribution of steps d
 ## What is the average daily activity pattern?
 
 ###1. Make a time series plot (i.e. 𝚝𝚢𝚙𝚎 = "𝚕") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
-```{r,echo=TRUE}
+```{r steps_per_interval,echo=TRUE}
 mean_steps_per_interval <- tapply(activity$steps, activity$interval, mean, na.rm = TRUE)
 
 plot(row.names(mean_steps_per_interval), mean_steps_per_interval, type = "l", xlab = "5 minute interval", 
@@ -83,7 +83,7 @@ activity_no_NA$steps <- impute(activity$steps, fun=mean)
 ```
 
 ### 4. Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
-```{r,echo=TRUE}
+```{r total_steps,echo=TRUE}
 steps_per_day_filled <- tapply(activity_no_NA$steps, activity_no_NA$date, sum)
 par(mar = rep(2, 4))
 hist(steps_per_day_filled, xlab='Steps per day with NAs filled', ylab='Frequency', main="",breaks=seq(from=0, to=25000, by=2000))
@@ -109,7 +109,7 @@ activity_no_NA <- activity_no_NA %>% group_by(interval, weekend)
 
 ```
 ### 2. Make a panel plot containing a time series plot (i.e. 𝚝𝚢𝚙𝚎 = "𝚕") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.
-```{r,echo=TRUE}
+```{r weekend_v_weekday,echo=TRUE}
 
 activity_no_NA$steps[weekdays(activity_no_NA$date) %in% c("Saturday","Sunday")] <- tapply(activity$steps[weekdays(activity_no_NA$date) %in% c("Saturday","Sunday")], activity$interval[weekdays(activity_no_NA$date) %in% c("Saturday","Sunday")], mean, na.rm = TRUE)
 
